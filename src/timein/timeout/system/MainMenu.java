@@ -17,7 +17,7 @@ public class MainMenu {
     public static final Salary salary = new Salary();
     public static final Attendance attendance = new Attendance();
     public static final Payslip payslip = new Payslip();
-
+   public Employee viewEmployees = new Employee();
  public static void main(String[] args) {
         boolean running = true;
         
@@ -69,6 +69,7 @@ public class MainMenu {
                     managePayslips();
                     break;
                 case 5:
+                    Employee.viewEmployees();
                     System.out.print("Enter Employee ID to generate report: ");
                     int employeeIdReport = scanner.nextInt();
                     
@@ -76,6 +77,7 @@ public class MainMenu {
                    
                     break;
                 case 6:
+                    employee.viewEmployees();
                     System.out.print("Enter Employee ID to generate attendance report: ");
                     int employeeIdAttendance = scanner.nextInt();
                     generateAttendanceReport(employeeIdAttendance); 
@@ -195,8 +197,7 @@ public class MainMenu {
     switch (choice) {
         case 1:
              employee.viewEmployees();
-            System.out.print("Enter Employee ID: ");
-            int employeeId = scanner.nextInt();
+             int employeeId = getValidIntegerInput("Enter Employee ID: ");
             System.out.print("Enter salary amount: ");
             double salaryAmount = scanner.nextDouble();
             salary.addSalary(employeeId, salaryAmount);
@@ -206,15 +207,13 @@ public class MainMenu {
             break;
         case 3:
             salary.viewSalaries();
-            System.out.print("Enter Salary ID to update: ");
-            int salaryId = scanner.nextInt();
+            int salaryId = getValidIntegerInput("Enter Salary ID: ");
             System.out.print("Enter new salary amount: ");
             double newAmount = scanner.nextDouble();
             salary.updateSalary(salaryId, newAmount);
             break;
         case 4:
-            System.out.print("Enter Salary ID to delete: ");
-            int deleteSalaryId = scanner.nextInt();
+            int deleteSalaryId = getValidIntegerInput("Enter Salary ID to delete: ");
             salary.deleteSalary(deleteSalaryId);
             break;
         case 5:
@@ -222,7 +221,22 @@ public class MainMenu {
         default:
             System.out.println("Invalid choice. Returning to main menu.");
     }
+    
 }
+     private static int getValidIntegerInput(String prompt) {
+        int value = -1;
+        while (true) {
+            System.out.print(prompt);
+            if (scanner.hasNextInt()) {
+                value = scanner.nextInt();
+                scanner.nextLine(); 
+                return value;
+            } else {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                scanner.nextLine(); 
+            }
+        }       
+    }
 
 
   public static void manageAttendance() {
@@ -259,8 +273,7 @@ public class MainMenu {
     switch (choice) {
         case 1:
              employee.viewEmployees();
-            System.out.print("Enter Employee ID: ");
-            int employeeId = scanner.nextInt();
+            int employeeId = getValidIntegerInput("Enter Employee ID: ");
             scanner.nextLine(); 
             System.out.print("Enter date (YYYY-MM-DD): ");
             String date = scanner.nextLine();
@@ -275,8 +288,7 @@ public class MainMenu {
             break;
         case 3:
             attendance.viewAttendance();
-            System.out.print("Enter Attendance ID to update: ");
-            int attendanceId = scanner.nextInt();
+           int attendanceId = getValidIntegerInput("Enter Attendance ID to update: ");
             scanner.nextLine(); 
             System.out.print("Enter new time In (HH:MM): ");
             String newTimeIn = scanner.nextLine();
@@ -374,7 +386,7 @@ public class MainMenu {
     boolean validInput = false;
  employee.viewEmployees();
     while (!validInput) {
-        System.out.print("Enter Employee ID to generate attendance report: ");
+        System.out.print("Confrim Employee ID to generate attendance report: ");
         try {
             employeeId = scanner.nextInt();
             scanner.nextLine(); 
@@ -434,7 +446,7 @@ public class MainMenu {
 
   
     while (!validInput) {
-        System.out.print("Enter Employee ID to generate report: ");
+        System.out.print("Comfirm Employee ID to generate report: ");
         try {
             employeeId = scanner.nextInt(); 
             scanner.nextLine();  
